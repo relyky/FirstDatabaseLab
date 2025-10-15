@@ -4,6 +4,36 @@
 GET {{FirstDatabaseLab_HostAddress}}/weather/forecast
 Accept: application/json
 
-### 客戶：搜尋
+### 客戶：Search
 POST {{FirstDatabaseLab_HostAddress}}/customer/search
+Accept: application/json
+
+### 客戶：Create
+# @name createRequest
+POST {{FirstDatabaseLab_HostAddress}}/customer/create
+Accept: application/json
+Content-Type: application/json
+
+{
+	"name": "Smart Hao",
+  "email": "smart@mail.server"
+}
+
+### 客戶：Read
+POST {{FirstDatabaseLab_HostAddress}}/customer/read/{{createRequest.response.body.$.id}}
+Accept: application/json
+
+### 客戶：Update
+POST {{FirstDatabaseLab_HostAddress}}/customer/update/{{createRequest.response.body.$.id}}
+Accept: application/json
+Content-Type: application/json
+
+{
+	"id": {{createRequest.response.body.$.id}},
+	"name": "Smart Update Hao",
+  "email": "smart2@mail.server"
+}
+
+### 客戶：Delete
+POST {{FirstDatabaseLab_HostAddress}}/customer/delete/{{createRequest.response.body.$.id}}
 Accept: application/json
