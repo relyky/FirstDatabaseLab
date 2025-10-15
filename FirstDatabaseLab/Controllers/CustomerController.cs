@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FirstDatabaseLab.DB.Data;
 using FirstDatabaseLab.DB.Schema;
 
 namespace FirstDatabaseLab.Controllers;
@@ -17,13 +16,13 @@ public class CustomerController(MyTestDbContext _context) : ControllerBase
   [HttpPost("[action]")]
   public async Task<ActionResult<IEnumerable<Customer>>> Search()
   {
-    return await _context.Customers.ToListAsync();
+    return await _context.Customer.ToListAsync();
   }
 
   [HttpPost("[action]/{id}")]
   public async Task<ActionResult<Customer>> Read(int id)
   {
-    var customer = await _context.Customers.FindAsync(id);
+    var customer = await _context.Customer.FindAsync(id);
 
     if (customer == null)
     {
@@ -34,14 +33,15 @@ public class CustomerController(MyTestDbContext _context) : ControllerBase
   }
 
   [HttpPost("[action]/{id}")]
-  public async Task<IActionResult> Update(int id, Customer customer)
+  public async Task<ActionResult<Customer>> Update(int id, Customer customer)
   {
     try
     {
       if (id != customer.Id)
         return BadRequest();
 
-      var info = await _context.Customers.FindAsync(customer.Id);
+      using var txn = await _context.Database.BeginTransactionAsync();
+      var info = await _context.Customer.FindAsync(id);
       if (info == null)
         return NotFound();
 
@@ -51,9 +51,9 @@ public class CustomerController(MyTestDbContext _context) : ControllerBase
       // auto update system filed
       info.UpdatedAt = DateTimeOffset.Now;
 
-      //_context.Entry(customer).State = EntityState.Modified;
-      await _context.SaveChangesAsync();
-      return NoContent();
+      await _context.SaveChangesAsync(); // 將會更新 info
+      await txn.CommitAsync();
+      return info;
     }
     catch(Exception ex)
     {
@@ -72,28 +72,24 @@ public class CustomerController(MyTestDbContext _context) : ControllerBase
     customer.CreatedAt = now;
     customer.UpdatedAt = now;
 
-    _context.Customers.Add(customer);
+    _context.Customer.Add(customer);
     await _context.SaveChangesAsync();
+
     return CreatedAtAction("Read", new { id = customer.Id }, customer);
   }
 
   [HttpPost("[action]/{id}")]
   public async Task<IActionResult> Delete(int id)
   {
-    var customer = await _context.Customers.FindAsync(id);
+    var customer = await _context.Customer.FindAsync(id);
     if (customer == null)
     {
       return NotFound();
     }
 
-    _context.Customers.Remove(customer);
+    _context.Customer.Remove(customer);
     await _context.SaveChangesAsync();
 
     return NoContent();
-  }
-
-  private bool CustomerExists(int id)
-  {
-    return _context.Customers.Any(e => e.Id == id);
   }
 }
