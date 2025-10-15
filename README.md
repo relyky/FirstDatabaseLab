@@ -1,5 +1,8 @@
 # EF9 Database First Lab
 
+# 操作行為目標
+database first → 調整 schema → migration → update → 調整 schema → migration → update → ...
+
 # 主要步驟
 1. 安裝套件
 ```
@@ -20,12 +23,47 @@ Microsoft.EntityFrameworkCore.Design
 dotnet tool install --global dotnet-ef
 ```
 
-3. Database first 第一道指令。在目標專案目錄執行。
+3. Database first 第一道指令，
+
+在方案目錄執行
+```bash
+dotnet ef dbcontext scaffold Name=DefaultConnection ` 指定 appsettings.json 設定的連線字串。
+  Microsoft.EntityFrameworkCore.SqlServer           ` 指定 database provider。
+  --context-dir Data                                ` 生成 Data 目錄。
+  --output-dir Schema                               ` 生成 entitys 目錄。
+  --project ./FirstDatabaseLab.DB                   ` 指定目標專案目錄。
+  --startup-project ./FirstDatabaseLab              ` 指定到起始專案目錄不然找不到 appsettings.json。
+  --data-annotations --force                        ` 生成 annotation 且強制覆寫。
+```
+
+或在目標專案目錄執行。
 ```bash
 dotnet ef dbcontext scaffold Name=DefaultConnection ` 指定 appsettings.json 設定的連線字串
   Microsoft.EntityFrameworkCore.SqlServer           ` 指定 database provider
-  --context-dir Data                           ` 生成 DbContext 目錄
+  --context-dir Data                                ` 生成 DbContext 目錄
   --output-dir Schema                               ` 生成 entitys 目錄
   --startup-project ../FirstDatabaseLab             ` 指定到起始專案目錄不然找不到 appsettings.json
   --data-annotations --force                        ` 生成 annotation 且強制覆寫。
 ```
+
+4. 組織 Database Context 服務。
+※設定好 DbContext 服務，後序 migration 才能成功。
+```program.cs
+builder.Services.AddDbContext<MyTestDbContext>(options =>
+{
+  options.UseSqlServer(builder.Configuration.GetConnectionString("MyTestDB_SqlServer"));
+});
+```
+
+@15:58
+5.Add-Migration <name>
+Remove-Migrtion
+※若欲關聯的 DbContext 服務未組織會無法執行。 
+
+```bash
+dotnet ef migrations add InitialScaffoldDatabase ` 建立第一個 migration 並指定名稱。
+ --project ./FirstDatabaseLab.DB                 ` 指定目標專案目錄。
+ --startup-project ./FirstDatabaseLab            ` 指定到起始專案目錄不然找不到 appsettings.json。
+```  
+
+6.加入新欄位

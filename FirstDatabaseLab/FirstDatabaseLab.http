@@ -4,4 +4,6 @@
 GET {{FirstDatabaseLab_HostAddress}}/weather/forecast
 Accept: application/json
 
-###
+### «È¤á¡G·j´M
+POST {{FirstDatabaseLab_HostAddress}}/customer/search
+Accept: application/json
