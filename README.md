@@ -75,3 +75,11 @@ dotnet ef migrations remove
 試完 Remove-Migrtion 再重新 Add-Migration。不然無法繼續練習。
 
 6.加入新欄位
+
+
+
+--------
+dotnet ef migrations add InitialScaffoldDatabase --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab            
+
+dotnet ef migrations add AddDeveoper --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab
+
