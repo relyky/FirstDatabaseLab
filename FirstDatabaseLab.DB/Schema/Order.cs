@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FirstDatabaseLab.DB.Schema;
 
-[Table("Order")]
 [Index("CustomerId", Name = "IX_Order_CustomerId")]
 public partial class Order
 {
@@ -19,9 +18,9 @@ public partial class Order
     public int CustomerId { get; set; }
 
     [ForeignKey("CustomerId")]
-    [InverseProperty("Orders")]
+    [InverseProperty("Order")]
     public virtual Customer Customer { get; set; } = null!;
 
     [InverseProperty("OrderNoNavigation")]
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItem> OrderItem { get; set; } = new List<OrderItem>();
 }

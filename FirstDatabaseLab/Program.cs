@@ -1,4 +1,5 @@
-using FirstDatabaseLab.DB.Data;
+using FirstDatabaseLab.DB;
+using FirstDatabaseLab.DB.Schema;
 using Microsoft.EntityFrameworkCore;
 using System;
 

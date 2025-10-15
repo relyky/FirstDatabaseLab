@@ -6,21 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FirstDatabaseLab.DB.Schema;
 
-[Table("Product")]
 public partial class Product
 {
-  [Key]
-  public int ProductNo { get; set; }
+    [Key]
+    public int ProductNo { get; set; }
 
-  [StringLength(50)]
-  public string Name { get; set; } = null!;
+    [StringLength(50)]
+    public string Name { get; set; } = null!;
 
-  [Column(TypeName = "decimal(18, 4)")]
-  public decimal Price { get; set; }
+    [Column(TypeName = "decimal(18, 4)")]
+    public decimal Price { get; set; }
 
-  [StringLength(50)]
-  public string Developer { get; set; } = null!;
-
-  [InverseProperty("ProductNoNavigation")]
-  public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    [InverseProperty("ProductNoNavigation")]
+    public virtual ICollection<OrderItem> OrderItem { get; set; } = new List<OrderItem>();
 }

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FirstDatabaseLab.DB.Schema;
 
-[Table("Customer")]
 public partial class Customer
 {
     /// <summary>
@@ -32,5 +31,5 @@ public partial class Customer
     public DateTimeOffset UpdatedAt { get; set; }
 
     [InverseProperty("Customer")]
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Order { get; set; } = new List<Order>();
 }

@@ -29,21 +29,11 @@ dotnet tool install --global dotnet-ef
 ```bash
 dotnet ef dbcontext scaffold Name=DefaultConnection ` 指定 appsettings.json 設定的連線字串。
   Microsoft.EntityFrameworkCore.SqlServer           ` 指定 database provider。
-  --context-dir Data                                ` 生成 Data 目錄。
-  --output-dir Schema                               ` 生成 entitys 目錄。
+  --output-dir Schema                               ` 生成 entitys 放置目錄。
   --project ./FirstDatabaseLab.DB                   ` 指定目標專案目錄。
   --startup-project ./FirstDatabaseLab              ` 指定到起始專案目錄不然找不到 appsettings.json。
   --data-annotations --force                        ` 生成 annotation 且強制覆寫。
-```
-
-或在目標專案目錄執行。
-```bash
-dotnet ef dbcontext scaffold Name=DefaultConnection ` 指定 appsettings.json 設定的連線字串
-  Microsoft.EntityFrameworkCore.SqlServer           ` 指定 database provider
-  --context-dir Data                                ` 生成 DbContext 目錄
-  --output-dir Schema                               ` 生成 entitys 目錄
-  --startup-project ../FirstDatabaseLab             ` 指定到起始專案目錄不然找不到 appsettings.json
-  --data-annotations --force                        ` 生成 annotation 且強制覆寫。
+  --no-pluralize		                            ` 請勿使用複數化程式。
 ```
 
 4. 組織 Database Context 服務。
@@ -76,10 +66,19 @@ dotnet ef migrations remove
 
 6.加入新欄位
 
+7.Add-Migration AddDeveloper
 
+8.Update-Database
+dotnet ef database update AddDeveoper  --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab
 
 --------
+dotnet ef dbcontext scaffold Name=DefaultConnection Microsoft.EntityFrameworkCore.SqlServer --output-dir Schema --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab --data-annotations --force --no-pluralize
+  
 dotnet ef migrations add InitialScaffoldDatabase --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab            
 
-dotnet ef migrations add AddDeveoper --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab
+dotnet ef migrations add AddDeveloper --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab
 
+dotnet ef migrations remove --project ./FirstDatabaseLab.DB --startup-project ./FirstDatabaseLab  
+
+  [StringLength(50)]
+  public string Developer { get; set; } = null!;
