@@ -1,0 +1,7 @@
+@FirstDatabaseLab_HostAddress = http://localhost:5189
+
+### 天氣預報
+GET {{FirstDatabaseLab_HostAddress}}/weather/forecast
+Accept: application/json
+
+###
