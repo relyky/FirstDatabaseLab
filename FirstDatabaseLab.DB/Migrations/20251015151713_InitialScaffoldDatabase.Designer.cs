@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FirstDatabaseLab.DB.Migrations
 {
     [DbContext(typeof(MyTestDbContext))]
-    [Migration("20251015131604_InitialScaffoldDatabase")]
+    [Migration("20251015151713_InitialScaffoldDatabase")]
     partial class InitialScaffoldDatabase
     {
         /// <inheritdoc />

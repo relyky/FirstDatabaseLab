@@ -55,7 +55,7 @@ builder.Services.AddDbContext<MyTestDbContext>(options =>
 });
 ```
 
-@15:58
+@15:58   
 5.Add-Migration <name>
 Remove-Migrtion
 ※若欲關聯的 DbContext 服務未組織會無法執行。 
@@ -65,5 +65,13 @@ dotnet ef migrations add InitialScaffoldDatabase ` 建立第一個 migration 並
  --project ./FirstDatabaseLab.DB                 ` 指定目標專案目錄。
  --startup-project ./FirstDatabaseLab            ` 指定到起始專案目錄不然找不到 appsettings.json。
 ```  
+
+5A.Remove-Migrtion - 也試一下移除 Migrtion
+```base
+dotnet ef migrations remove
+ --project ./FirstDatabaseLab.DB       ` 指定目標專案目錄。
+ --startup-project ./FirstDatabaseLab  ` 指定到起始專案目錄不然找不到 appsettings.json。
+```
+試完 Remove-Migrtion 再重新 Add-Migration。不然無法繼續練習。
 
 6.加入新欄位
