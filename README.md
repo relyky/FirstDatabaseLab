@@ -1,4 +1,5 @@
 # EF9 Database First Lab
+完整文章[EF9 Database First 再試用紀錄](https://rely-ky.gitbook.io/net8/cloud/ef9-database-first-zai-shi-yong-ji-lu)
 
 # 操作行為練習目標
 database first → 調整 schema → migration → update → 調整 schema → migration → update → ...
